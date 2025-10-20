@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850">
+  <defs>
+    <style>
+      .vpc { fill: #E8F4F8; stroke: #232F3E; stroke-width: 3; }
+      .subnet-public { fill: #7AA116; stroke: #232F3E; stroke-width: 2; opacity: 0.3; }
+      .subnet-private { fill: #147EBA; stroke: #232F3E; stroke-width: 2; opacity: 0.3; }
+      .ec2 { fill: #FF9900; stroke: #232F3E; stroke-width: 2; }
+      .alb { fill: #8C4FFF; stroke: #232F3E; stroke-width: 2; }
+      .rds { fill: #3B48CC; stroke: #232F3E; stroke-width: 2; }
+      .rds-replica { fill: #527FFF; stroke: #232F3E; stroke-width: 2; }
+      .igw { fill: #FF6B6B; stroke: #232F3E; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 14px; fill: #232F3E; }
+      .text-small { font-family: Arial, sans-serif; font-size: 12px; fill: #232F3E; }
+      .text-title { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #232F3E; }
+      .arrow { stroke: #232F3E; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .replication { stroke: #3B48CC; stroke-width: 2; fill: none; stroke-dasharray: 5,5; marker-end: url(#arrowhead-blue); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#232F3E" />
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3B48CC" />
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <text x="600" y="30" class="text-title" text-anchor="middle">3-Tier Web Application Architecture with RDS Read Replica</text>
+  
+  <!-- VPC -->
+  <rect class="vpc" x="50" y="60" width="1100" height="750" rx="10"/>
+  <text x="70" y="85" class="text-title">VPC (10.0.0.0/16)</text>
+  
+  <!-- Internet Gateway -->
+  <rect class="igw" x="520" y="100" width="160" height="60" rx="5"/>
+  <text x="600" y="135" class="text" text-anchor="middle">Internet Gateway</text>
+  
+  <!-- ALB -->
+  <rect class="alb" x="480" y="200" width="240" height="60" rx="5"/>
+  <text x="600" y="235" class="text" text-anchor="middle">Application Load Balancer</text>
+  
+  <!-- AZ 1 -->
+  <text x="250" y="300" class="text-title">Availability Zone 1</text>
+  
+  <!-- Public Subnet AZ1 -->
+  <rect class="subnet-public" x="100" y="320" width="350" height="180" rx="5"/>
+  <text x="110" y="340" class="text-small">Public Subnet (10.0.0.0/24)</text>
+  
+  <!-- Web EC2 AZ1 -->
+  <rect class="ec2" x="180" y="360" width="180" height="80" rx="5"/>
+  <text x="270" y="390" class="text" text-anchor="middle">Web Server 1</text>
+  <text x="270" y="410" class="text-small" text-anchor="middle">EC2 (Ubuntu + NGINX)</text>
+  <text x="270" y="425" class="text-small" text-anchor="middle">t2.micro</text>
+  
+  <!-- Private DB Subnet AZ1 -->
+  <rect class="subnet-private" x="100" y="520" width="350" height="230" rx="5"/>
+  <text x="110" y="540" class="text-small">Private DB Subnet (10.0.20.0/24)</text>
+  
+  <!-- RDS Primary -->
+  <rect class="rds" x="150" y="580" width="240" height="80" rx="5"/>
+  <text x="270" y="610" class="text" text-anchor="middle">RDS PostgreSQL</text>
+  <text x="270" y="630" class="text-small" text-anchor="middle">(Primary)</text>
+  <text x="270" y="645" class="text-small" text-anchor="middle">db.t3.micro - 20GB gp2</text>
+  
+  <!-- AZ 2 -->
+  <text x="850" y="300" class="text-title">Availability Zone 2</text>
+  
+  <!-- Public Subnet AZ2 -->
+  <rect class="subnet-public" x="750" y="320" width="350" height="180" rx="5"/>
+  <text x="760" y="340" class="text-small">Public Subnet (10.0.1.0/24)</text>
+  
+  <!-- Web EC2 AZ2 -->
+  <rect class="ec2" x="830" y="360" width="180" height="80" rx="5"/>
+  <text x="920" y="390" class="text" text-anchor="middle">Web Server 2</text>
+  <text x="920" y="410" class="text-small" text-anchor="middle">EC2 (Ubuntu + NGINX)</text>
+  <text x="920" y="425" class="text-small" text-anchor="middle">t2.micro</text>
+  
+  <!-- Private DB Subnet AZ2 -->
+  <rect class="subnet-private" x="750" y="520" width="350" height="230" rx="5"/>
+  <text x="760" y="540" class="text-small">Private DB Subnet (10.0.21.0/24)</text>
+  
+  <!-- RDS Read Replica -->
+  <rect class="rds-replica" x="810" y="580" width="240" height="80" rx="5"/>
+  <text x="930" y="610" class="text" text-anchor="middle">RDS PostgreSQL</text>
+  <text x="930" y="630" class="text-small" text-anchor="middle">(Read Replica)</text>
+  <text x="930" y="645" class="text-small" text-anchor="middle">db.t3.micro - 20GB gp2</text>
+  
+  <!-- Arrows -->
+  <path class="arrow" d="M 600 160 L 600 200"/>
+  <path class="arrow" d="M 550 260 L 270 360"/>
+  <path class="arrow" d="M 650 260 L 920 360"/>
+  <path class="arrow" d="M 270 440 L 270 580"/>
+  <path class="arrow" d="M 920 440 L 930 580"/>
+  
+  <!-- Replication Arrow -->
+  <path class="replication" d="M 390 620 L 810 620"/>
+  <text x="600" y="610" class="text-small" text-anchor="middle" fill="#3B48CC">Async Replication</text>
+  
+  <!-- Security Groups Legend -->
+  <rect x="50" y="830" width="15" height="15" fill="#FF9900"/>
+  <text x="70" y="842" class="text-small">Web SG: 80/443 from ALB, SSH from specified CIDR</text>
+  
+  <rect x="450" y="830" width="15" height="15" fill="#3B48CC"/>
+  <text x="470" y="842" class="text-small">DB SG: 5432 from Web SG only</text>
+  
+  <rect x="750" y="830" width="15" height="15" fill="#8C4FFF"/>
+  <text x="770" y="842" class="text-small">ALB SG: 80/443 from Internet</text>
+</svg>

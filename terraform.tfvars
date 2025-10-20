@@ -1,0 +1,8 @@
+project_name      = "webapp"
+key_pair_name     = "my-keypair"
+ssh_cidr          = "10.0.0.0/32"
+db_password       = "YourSecurePassword123!"
+db_username       = "dbadmin"
+db_name           = "appdb"
+instance_type     = "t2.micro"
+db_instance_class = "db.t3.micro"

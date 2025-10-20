@@ -1,0 +1,107 @@
+{
+  "pipeline": {
+    "name": "TerraformPipeline",
+    "roleArn": "arn:aws:iam::493742262799:role/CodePipelineRole",
+    "artifactStore": {
+      "type": "S3",
+      "location": "my-tf-artifacts-28825"
+    },
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
+          {
+            "name": "SourceAction",
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "AWS",
+              "provider": "CodeStarSourceConnection",
+              "version": "1"
+            },
+            "configuration": {
+              "ConnectionArn": "arn:aws:codeconnections:ap-southeast-2:493742262799:connection/68ecb06d-0a8b-433e-9afd-230a4b759e01",
+              "FullRepositoryId": "sudhicgin-creator/Infra-Pipeline",
+              "BranchName": "master"
+            },
+            "outputArtifacts": [{ "name": "SourceOutput" }],
+            "runOrder": 1
+          }
+        ]
+      },
+      {
+        "name": "Validate",
+        "actions": [
+          {
+            "name": "ValidateAction",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "configuration": {
+              "ProjectName": "TerraformValidate"
+            },
+            "inputArtifacts": [{ "name": "SourceOutput" }],
+            "outputArtifacts": [{ "name": "ValidateOutput" }],
+            "runOrder": 1
+          }
+        ]
+      },
+      {
+        "name": "Plan",
+        "actions": [
+          {
+            "name": "PlanAction",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "configuration": {
+              "ProjectName": "TerraformPlan"
+            },
+            "inputArtifacts": [{ "name": "SourceOutput" }],
+            "outputArtifacts": [{ "name": "PlanOutput" }],
+            "runOrder": 1
+          }
+        ]
+      },
+      {
+        "name": "Approval",
+        "actions": [
+          {
+            "name": "ManualApproval",
+            "actionTypeId": {
+              "category": "Approval",
+              "owner": "AWS",
+              "provider": "Manual",
+              "version": "1"
+            },
+            "runOrder": 1
+          }
+        ]
+      },
+      {
+        "name": "Apply",
+        "actions": [
+          {
+            "name": "ApplyAction",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "configuration": {
+              "ProjectName": "TerraformApply"
+            },
+            "inputArtifacts": [{ "name": "SourceOutput" }],
+            "runOrder": 1
+          }
+        ]
+      }
+    ]
+  }
+}
